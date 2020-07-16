@@ -1,0 +1,22 @@
+{
+  "compilerOptions": {
+    "module": "commonjs",
+    "moduleResolution": "node",
+    "target": "es5",
+    "outDir": "lib",
+    "strict": true,
+    "declaration": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "noEmitOnError": true,
+    "noImplicitReturns": true,
+    "esModuleInterop": true,
+    "downlevelIteration": true,
+    "jsx": "react",
+    "resolveJsonModule": true,
+    "typeRoots": ["./node_modules/@types", "src/typings"],
+    "lib": ["dom", "es2017"]
+  },
+  "include": ["src/index.ts"],
+  "exclude": ["node_modules"]
+}
