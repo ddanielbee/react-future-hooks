@@ -36,8 +36,11 @@ import { useInmediateDataFetch } from "react-future-hooks";
 
 // We'll fetch the User's data using an userId prop and our useInmediateDataFetch hook
 const User = (props) => {
-  // userFetchResult has this shape: { state: FetchResultState, value: ResultType, reason?: string }
-  // Below you'll find more info on the possible FetchResultState values
+  /* 
+    userFetchResult has this shape: 
+    { state: FetchResultState, value: ResultType, reason?: string }
+    Below you'll find more info on the possible FetchResultState values
+  */
 
   const [userFetchResult, refreshUserFetch] = useInmediateDataFetch(
     `/user-api/${props.userId}`,
@@ -73,11 +76,18 @@ Fires a `GET` request lazily to the given url.
 import * as React from "react";
 import { useDataFetch } from "react-future-hooks";
 
-// This time, we don't have access to userId on first render, but we'll fetch it somehow. How that happens is not relevant to the example.
+/* 
+  This time, we don't have access to userId on first render, but we'll fetch it somehow. 
+  How that happens is not relevant to the example.
+*/
 const User = () => {
   // userFetchResult will start with a state of "NotStarted" this time.
   const [userFetchResult, executeUserFetch] = useDataFetch(typeguard, logger);
-  const userId = getUserIdEventually(); // This function might do a myriad of things, but the important part is that userId is not there at initial render.
+  /* 
+    This function might do a myriad of things, but the important part is that 
+    userId is not there at initial render.
+  */
+  const userId = getUserIdEventually();
 
   React.useEffect(() => {
     if (userId) {
@@ -121,18 +131,30 @@ const UpdateUser = (props) => {
   const [userUpdateResult, executeUserUpdate] = useDataPost(
     `/user-api/update/${props.userId}`
     requestBodyTypeGuard, // We need 2 typeguards for this one.
-    resultTypeGuard, // There are cases we might not care about the result. We can always pass () => true; for a typeguard that never fails in those cases.
+    /*
+      // There are cases we might not care about the result.
+      We can always pass () => true;
+      for a typeguard that never fails in those cases.
+    */
+    resultTypeGuard,
     logger
   );
 
   const handleFormSubmit = (userData) => {
-    // We execute the POST request with the body we want to send to the endpoint. This will trigger the same state changes on userUpdateResult as the other hooks.
+    /*
+      We execute the POST request with the body we want to send to the endpoint.
+      This will trigger the same state changes on userUpdateResult as the other hooks.
+    */
     executeUserUpdate(userData)
   }
 
   switch (userFetchResult.state) {
     case "NotStarted":
-      return <UpdateForm onSubmit={handleFormSubmit} />; // Not in the example, what UpdateForm does, but it's assumed that when submitted, will call it's onSubmit with the data we want to send.
+    /*
+      Not in the example, what UpdateForm does, but it's assumed that
+      when submitted it will call it's onSubmit with the data we want to send.
+    */
+      return <UpdateForm onSubmit={handleFormSubmit} />;
     case "Pending":
       return <LoadingSpinner />;
     case "Fulfilled":
@@ -154,7 +176,10 @@ For this example we're not fetching data anymore, but we're sending data through
 In async operations we can never be sure of what we'll get. That's why we protect our components with a TypeGuard function, which will guarantee that once the data is accessible in the component, it has the shape we expected it to have. An example of this function could look like this: `
 
 ```javascript
-// We check if an object passed is of type UserData, where UserData looks like: { name: string, age: number }
+/* 
+  We check if an object passed is of type UserData, 
+  where UserData looks like: { name: string, age: number }
+*/
 const isUserData = (obj) =>
   typeof obj === "object" &&
   typeof obj.name === "string" &&
@@ -179,11 +204,16 @@ There are 5 possible states your async operation can be in at any point in time.
 
 ```typescript
 export enum FetchResultState {
-  NotStarted = "NotStarted", // Present in useDataPost and useDataFetch. State before the request has been fired.
-  Pending = "Pending", // State after the request has been fired but before it has been fulfilled or rejected.
-  Refreshing = "Refreshing", // State when a request is fired again once it's been fulfilled or rejected and before it finishes again.
-  Fulfilled = "Fulfilled", // State when a request is fulfilled successfully.
-  Rejected = "Rejected", // State when a request is rejected due to an error.
+  // Present in useDataPost and useDataFetch. State before the request has been fired.
+  NotStarted = "NotStarted",
+  // State after the request has been fired but before it has been fulfilled or rejected.
+  Pending = "Pending",
+  // State when a request is fired again once it's been fulfilled or rejected and before it finishes again.
+  Refreshing = "Refreshing",
+  // State when a request is fulfilled successfully.
+  Fulfilled = "Fulfilled",
+  // State when a request is rejected due to an error.
+  Rejected = "Rejected",
 }
 ```
 
