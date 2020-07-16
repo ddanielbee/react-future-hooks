@@ -63,7 +63,7 @@ const User = (props) => {
 };
 ```
 
-In this example, we define what will be rendered based on the state of our fetch request. We use 3 of the possible 5 [FetchResultStates](/#FetchResultState). Please refer to that section for more information.
+In this example, we define what will be rendered based on the state of our fetch request. We use 3 of the possible 5 [FetchResultStates](#FetchResultState). Please refer to that section for more information.
 
 ### useDataFetch
 
