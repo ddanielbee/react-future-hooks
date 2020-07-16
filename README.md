@@ -208,7 +208,10 @@ export enum FetchResultState {
   NotStarted = "NotStarted",
   // State after the request has been fired but before it has been fulfilled or rejected.
   Pending = "Pending",
-  // State when a request is fired again once it's been fulfilled or rejected and before it finishes again.
+  /* 
+    State when a request is fired again once it's been fulfilled 
+    or rejected and before it finishes again.
+  */
   Refreshing = "Refreshing",
   // State when a request is fulfilled successfully.
   Fulfilled = "Fulfilled",
